@@ -76,6 +76,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     
     [self setUpToolbarItems];
     [self resetCachedAssets];
+    [self setUpScroll];
     
     // Register observer
     [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
@@ -187,6 +188,12 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     }
 }
 
+#pragma mark - Setup
+
+- (void)setUpScroll
+{
+    self.disableScrollToBottom = YES;
+}
 
 #pragma mark - Toolbar
 
