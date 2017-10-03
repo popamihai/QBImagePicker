@@ -14,6 +14,8 @@
 #import "QBAssetCell.h"
 #import "QBVideoIndicatorView.h"
 
+#import "ClusturedPicturesByMonths.h"
+
 static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     return CGSizeMake(size.width * scale, size.height * scale);
 }
@@ -66,6 +68,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
 @property (nonatomic, assign) BOOL disableScrollToBottom;
 @property (nonatomic, strong) NSIndexPath *lastSelectedItemIndexPath;
 
+@property (nonatomic, strong) ClusturedPicturesByMonth *model;
 @end
 
 @implementation QBAssetsViewController
@@ -102,6 +105,8 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     
     [self updateDoneButtonState];
     [self updateSelectionInfo];
+    
+    self.model = [[ClusturedPicturesByMonth alloc] initWithObjects:self.fetchResult];
     [self.collectionView reloadData];
     
     // Scroll to bottom
@@ -159,6 +164,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     _assetCollection = assetCollection;
     
     [self updateFetchRequest];
+    [self.model updateWithObjects:self.fetchResult];
     [self.collectionView reloadData];
 }
 
@@ -266,6 +272,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     } else {
         self.fetchResult = nil;
     }
+    [self.model updateWithObjects:self.fetchResult];
 }
 
 
@@ -400,6 +407,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
         if (collectionChanges) {
             // Get the new fetch result
             self.fetchResult = [collectionChanges fetchResultAfterChanges];
+            [self.model updateWithObjects:self.fetchResult];
             
             if (![collectionChanges hasIncrementalChanges] || [collectionChanges hasMoves]) {
                 // We need to reload all if the incremental diffs are not available
@@ -442,12 +450,12 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 1;
+    return [self.model count];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.fetchResult.count;
+    return [self.model numberOfPicturesInSection:section];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -457,7 +465,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     cell.showsOverlayViewWhenSelected = self.imagePickerController.allowsMultipleSelection;
     
     // Image
-    PHAsset *asset = self.fetchResult[indexPath.item];
+    PHAsset *asset = [self.model assetInSection:indexPath.section number:indexPath.item];
     CGSize itemSize = [(UICollectionViewFlowLayout *)collectionView.collectionViewLayout itemSize];
     CGSize targetSize = CGSizeScale(itemSize, [[UIScreen mainScreen] scale]);
     
@@ -502,58 +510,16 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
-    if (kind == UICollectionElementKindSectionFooter) {
-        UICollectionReusableView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter
-                                                                                  withReuseIdentifier:@"FooterView"
+    if (kind == UICollectionElementKindSectionHeader)
+    {
+        UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                                                                                  withReuseIdentifier:@"HeaderView"
                                                                                          forIndexPath:indexPath];
-        
-        // Number of assets
-        UILabel *label = (UILabel *)[footerView viewWithTag:1];
-        
-        NSBundle *bundle = self.imagePickerController.assetBundle;
-        NSUInteger numberOfPhotos = [self.fetchResult countOfAssetsWithMediaType:PHAssetMediaTypeImage];
-        NSUInteger numberOfVideos = [self.fetchResult countOfAssetsWithMediaType:PHAssetMediaTypeVideo];
-        
-        switch (self.imagePickerController.mediaType) {
-            case QBImagePickerMediaTypeAny:
-            {
-                NSString *format;
-                if (numberOfPhotos == 1) {
-                    if (numberOfVideos == 1) {
-                        format = NSLocalizedStringFromTableInBundle(@"assets.footer.photo-and-video", @"QBImagePicker", bundle, nil);
-                    } else {
-                        format = NSLocalizedStringFromTableInBundle(@"assets.footer.photo-and-videos", @"QBImagePicker", bundle, nil);
-                    }
-                } else if (numberOfVideos == 1) {
-                    format = NSLocalizedStringFromTableInBundle(@"assets.footer.photos-and-video", @"QBImagePicker", bundle, nil);
-                } else {
-                    format = NSLocalizedStringFromTableInBundle(@"assets.footer.photos-and-videos", @"QBImagePicker", bundle, nil);
-                }
-                
-                label.text = [NSString stringWithFormat:format, numberOfPhotos, numberOfVideos];
-            }
-                break;
-                
-            case QBImagePickerMediaTypeImage:
-            {
-                NSString *key = (numberOfPhotos == 1) ? @"assets.footer.photo" : @"assets.footer.photos";
-                NSString *format = NSLocalizedStringFromTableInBundle(key, @"QBImagePicker", bundle, nil);
-                
-                label.text = [NSString stringWithFormat:format, numberOfPhotos];
-            }
-                break;
-                
-            case QBImagePickerMediaTypeVideo:
-            {
-                NSString *key = (numberOfVideos == 1) ? @"assets.footer.video" : @"assets.footer.videos";
-                NSString *format = NSLocalizedStringFromTableInBundle(key, @"QBImagePicker", bundle, nil);
-                
-                label.text = [NSString stringWithFormat:format, numberOfVideos];
-            }
-                break;
-        }
-        
-        return footerView;
+    
+         UILabel *label = (UILabel *)[headerView viewWithTag:1];
+         label.text = [self.model clusterDescriptionForSection:indexPath.section];
+         return headerView;
+
     }
     
     return nil;
@@ -565,7 +531,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.imagePickerController.delegate respondsToSelector:@selector(qb_imagePickerController:shouldSelectAsset:)]) {
-        PHAsset *asset = self.fetchResult[indexPath.item];
+        PHAsset *asset = [self.model assetInSection:indexPath.section number:indexPath.item];
         return [self.imagePickerController.delegate qb_imagePickerController:self.imagePickerController shouldSelectAsset:asset];
     }
     
@@ -581,7 +547,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     QBImagePickerController *imagePickerController = self.imagePickerController;
     NSMutableOrderedSet *selectedAssets = imagePickerController.selectedAssets;
     
-    PHAsset *asset = self.fetchResult[indexPath.item];
+    PHAsset *asset = [self.model assetInSection:indexPath.section number:indexPath.item];
     
     if (imagePickerController.allowsMultipleSelection) {
         if ([self isAutoDeselectEnabled] && selectedAssets.count > 0) {
@@ -629,7 +595,7 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     QBImagePickerController *imagePickerController = self.imagePickerController;
     NSMutableOrderedSet *selectedAssets = imagePickerController.selectedAssets;
     
-    PHAsset *asset = self.fetchResult[indexPath.item];
+    PHAsset *asset = [self.model assetInSection:indexPath.section number:indexPath.item];
     
     // Remove asset from set
     [selectedAssets removeObject:asset];
