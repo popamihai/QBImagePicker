@@ -38,6 +38,8 @@
 		AAF1CA301ACE6E46005F6295 /* QBAssetsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF1CA2E1ACE6E46005F6295 /* QBAssetsViewController.m */; };
 		AAF1CA331ACE6FB5005F6295 /* QBAssetCell.h in Headers */ = {isa = PBXBuildFile; fileRef = AAF1CA311ACE6FB5005F6295 /* QBAssetCell.h */; };
 		AAF1CA341ACE6FB5005F6295 /* QBAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF1CA321ACE6FB5005F6295 /* QBAssetCell.m */; };
+		DBB923351F838FD600164CE9 /* CreationDateSorter.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB923341F838FD600164CE9 /* CreationDateSorter.m */; };
+		DBB923401F83BB5000164CE9 /* ClusturedPicturesByMonths.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB9233F1F83BB5000164CE9 /* ClusturedPicturesByMonths.m */; };
 		E521B0A21B01D9300079461F /* QBImagePicker.strings in Resources */ = {isa = PBXBuildFile; fileRef = AAF1CA3F1ACE8918005F6295 /* QBImagePicker.strings */; };
 /* End PBXBuildFile section */
 
@@ -122,6 +124,10 @@
 		AAF1CA321ACE6FB5005F6295 /* QBAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QBAssetCell.m; sourceTree = "<group>"; };
 		AAF1CA3E1ACE8918005F6295 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/QBImagePicker.strings; sourceTree = "<group>"; };
 		AAF1CA401ACE8A8B005F6295 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/QBImagePicker.strings; sourceTree = "<group>"; };
+		DBB923331F838FC600164CE9 /* CreationDateSorter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CreationDateSorter.h; sourceTree = "<group>"; };
+		DBB923341F838FD600164CE9 /* CreationDateSorter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreationDateSorter.m; sourceTree = "<group>"; };
+		DBB9233E1F83BB3E00164CE9 /* ClusturedPicturesByMonths.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClusturedPicturesByMonths.h; sourceTree = "<group>"; };
+		DBB9233F1F83BB5000164CE9 /* ClusturedPicturesByMonths.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClusturedPicturesByMonths.m; sourceTree = "<group>"; };
 		E521B0A11B01D6810079461F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/QBImagePicker.strings"; sourceTree = "<group>"; };
 		F167DB441C086AB90045AD5B /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/QBImagePicker.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -218,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				AAA8FE081ACDA079002A9710 /* QBImagePicker.h */,
+				DBB923321F838F8400164CE9 /* CreationDateSorting */,
 				AA3AD0751ACFA22500BF523E /* Views */,
 				AA3AD0761ACFA23300BF523E /* ViewControllers */,
 				AAF1CA241ACE5665005F6295 /* Resources */,
@@ -307,6 +314,17 @@
 				AAF1CA3F1ACE8918005F6295 /* QBImagePicker.strings */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		DBB923321F838F8400164CE9 /* CreationDateSorting */ = {
+			isa = PBXGroup;
+			children = (
+				DBB923331F838FC600164CE9 /* CreationDateSorter.h */,
+				DBB923341F838FD600164CE9 /* CreationDateSorter.m */,
+				DBB9233E1F83BB3E00164CE9 /* ClusturedPicturesByMonths.h */,
+				DBB9233F1F83BB5000164CE9 /* ClusturedPicturesByMonths.m */,
+			);
+			name = CreationDateSorting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -411,6 +429,9 @@
 		AAA8FDFA1ACDA079002A9710 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					100,
+				);
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Katsuma Tanaka";
 				TargetAttributes = {
@@ -497,8 +518,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAF1CA341ACE6FB5005F6295 /* QBAssetCell.m in Sources */,
+				DBB923351F838FD600164CE9 /* CreationDateSorter.m in Sources */,
 				AA3AD0701ACF9A3A00BF523E /* QBVideoIconView.m in Sources */,
 				790A85101AE7D4D9008E2A80 /* QBSlomoIconView.m in Sources */,
+				DBB923401F83BB5000164CE9 /* ClusturedPicturesByMonths.m in Sources */,
 				AABBF0911ACEDDFF003188A3 /* QBCheckmarkView.m in Sources */,
 				AAF1CA301ACE6E46005F6295 /* QBAssetsViewController.m in Sources */,
 				AAF1CA1B1ACE5467005F6295 /* QBAlbumCell.m in Sources */,
