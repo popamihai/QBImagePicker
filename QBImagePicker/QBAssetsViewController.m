@@ -37,6 +37,17 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     return indexPaths;
 }
 
+- (NSArray *)qb_indexPathsFromModel:(ClusturedPicturesByMonth *)model
+{
+    NSArray<ChangedAssetInClusturedModel *> *changed = [model indexSetForChangedIndexes:self];
+    NSMutableArray *indexPaths = [NSMutableArray arrayWithCapacity:self.count];
+    
+    for (ChangedAssetInClusturedModel *location in changed)
+    {
+        [indexPaths addObject:[NSIndexPath indexPathForItem:location.indexNumber inSection:location.sectionNumber]];
+    }
+    return indexPaths;
+}
 @end
 
 @implementation UICollectionView (Convenience)
@@ -403,31 +414,31 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         PHFetchResultChangeDetails *collectionChanges = [changeInstance changeDetailsForFetchResult:self.fetchResult];
-        
         if (collectionChanges) {
             // Get the new fetch result
             self.fetchResult = [collectionChanges fetchResultAfterChanges];
             [self.model updateWithObjects:self.fetchResult];
             
+            NSIndexSet *removedIndexes = [collectionChanges removedIndexes];
+            NSArray *removed = [removedIndexes  qb_indexPathsFromModel:self.model];
             if (![collectionChanges hasIncrementalChanges] || [collectionChanges hasMoves]) {
                 // We need to reload all if the incremental diffs are not available
                 [self.collectionView reloadData];
             } else {
                 // If we have incremental diffs, tell the collection view to animate insertions and deletions
                 [self.collectionView performBatchUpdates:^{
-                    NSIndexSet *removedIndexes = [collectionChanges removedIndexes];
                     if ([removedIndexes count]) {
-                        [self.collectionView deleteItemsAtIndexPaths:[removedIndexes qb_indexPathsFromIndexesWithSection:0]];
+                        [self.collectionView deleteItemsAtIndexPaths:removed];
                     }
                     
                     NSIndexSet *insertedIndexes = [collectionChanges insertedIndexes];
                     if ([insertedIndexes count]) {
-                        [self.collectionView insertItemsAtIndexPaths:[insertedIndexes qb_indexPathsFromIndexesWithSection:0]];
+                        [self.collectionView insertItemsAtIndexPaths:[insertedIndexes qb_indexPathsFromModel:self.model]];
                     }
                     
                     NSIndexSet *changedIndexes = [collectionChanges changedIndexes];
                     if ([changedIndexes count]) {
-                        [self.collectionView reloadItemsAtIndexPaths:[changedIndexes qb_indexPathsFromIndexesWithSection:0]];
+                        [self.collectionView reloadItemsAtIndexPaths:[changedIndexes qb_indexPathsFromModel:self.model]];
                     }
                 } completion:NULL];
             }

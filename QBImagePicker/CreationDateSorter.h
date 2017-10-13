@@ -8,11 +8,11 @@
 #import <Photos/Photos.h>
 @interface ClusterDescription : NSObject
 @property (nonatomic, strong) NSString  *header;
-@property (nonatomic, strong) NSArray   *array;
+@property (nonatomic, strong) NSArray<PHAsset *>   *array;
 @end
 
 @interface CreationDateSorter : NSObject
 
-- (NSArray<ClusterDescription *>*)clusterResult:(PHFetchResult *)fetchResult byUnit:(NSCalendarUnit)unitFlag;
+- (NSMutableArray<ClusterDescription *>*)clusterResult:(PHFetchResult *)fetchResult byUnit:(NSCalendarUnit)unitFlag;
 
 @end
