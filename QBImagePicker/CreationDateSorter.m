@@ -14,6 +14,9 @@
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @end
 
+@implementation ClusterDescription
+@end
+
 @implementation CreationDateSorter
 
 - (id)init
@@ -26,7 +29,7 @@
     return self;;
 }
 
-- (NSArray<ClusterDescription *>*)clusterResult:(PHFetchResult *)fetchResult byUnit:(NSCalendarUnit)unitFlag
+- (NSMutableArray<ClusterDescription *>*)clusterResult:(PHFetchResult *)fetchResult byUnit:(NSCalendarUnit)unitFlag
 {
     NSMutableDictionary<NSString*,NSMutableArray *> *dictionary = [[NSMutableDictionary alloc] init];
     for (PHAsset *asset in fetchResult)
@@ -51,7 +54,7 @@
     NSDateComponents *components = [self.calendar components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear                   fromDate:[object creationDate]];
     
     NSString *monthName = [[self.dateFormatter monthSymbols] objectAtIndex:([components month]-1)];
-    NSString *key = [NSString stringWithFormat:@"  %@ %ld",monthName, [components year]];
+    NSString *key = [NSString stringWithFormat:@"%@ %ld",monthName, [components year]];
 
     NSMutableArray *array = (NSMutableArray *)dictionary[key];
     if (!array)
