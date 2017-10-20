@@ -138,20 +138,20 @@
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AssetCell" id="fc0-k1-HNL" customClass="QBAssetCell">
-                                <rect key="frame" x="0.0" y="58" width="77" height="78"/>
+                                <rect key="frame" x="0.0" y="58" width="78" height="77"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="77" height="78"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="78" height="77"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0aq-fn-r9R">
-                                            <rect key="frame" x="0.0" y="0.0" width="77.666666666666671" height="77.333333333333329"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="78.333333333333329" height="77"/>
                                         </imageView>
                                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BwJ-KE-LWZ" customClass="QBVideoIndicatorView">
-                                            <rect key="frame" x="0.0" y="57.333333333333329" width="77.666666666666671" height="19.999999999999986"/>
+                                            <rect key="frame" x="0.0" y="57" width="78.333333333333329" height="20"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rKh-6o-xw7" customClass="QBVideoIconView">
-                                                    <rect key="frame" x="5" y="6" width="14" height="7.9999999999999929"/>
+                                                    <rect key="frame" x="5" y="6" width="14" height="8"/>
                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="14" id="NjT-dW-eKX"/>
@@ -159,7 +159,7 @@
                                                     </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1We-cC-Ruu" customClass="QBSlomoIconView">
-                                                    <rect key="frame" x="5" y="3" width="12" height="11.999999999999993"/>
+                                                    <rect key="frame" x="5" y="3" width="12" height="12"/>
                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="12" id="1qd-FB-w1Q"/>
@@ -167,7 +167,7 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JBs-FX-TZQ">
-                                                    <rect key="frame" x="23" y="3" width="49.666666666666671" height="14.999999999999993"/>
+                                                    <rect key="frame" x="23" y="3" width="50.333333333333329" height="15"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -191,10 +191,10 @@
                                             </connections>
                                         </view>
                                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uyS-Tg-Iyl">
-                                            <rect key="frame" x="0.0" y="0.0" width="77.666666666666671" height="77.333333333333329"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="78.333333333333329" height="77"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m99-yj-HSc" customClass="QBCheckmarkView">
-                                                    <rect key="frame" x="49.666666666666671" y="49.333333333333329" width="24.000000000000014" height="23.999999999999986"/>
+                                                    <rect key="frame" x="50.333333333333329" y="49" width="23.999999999999986" height="24"/>
                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="24" id="8Dq-6v-oj1"/>
@@ -241,7 +241,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 week ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H1V-H0-D7v">
-                                    <rect key="frame" x="0.0" y="26" width="414" height="21"/>
+                                    <rect key="frame" x="10" y="26" width="414" height="21"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
@@ -250,7 +250,7 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstItem="H1V-H0-D7v" firstAttribute="leading" secondItem="ckW-Lq-Foa" secondAttribute="leadingMargin" constant="-8" id="E49-Lb-rpd"/>
+                                <constraint firstItem="H1V-H0-D7v" firstAttribute="leading" secondItem="ckW-Lq-Foa" secondAttribute="leadingMargin" constant="2" id="E49-Lb-rpd"/>
                                 <constraint firstAttribute="bottomMargin" secondItem="H1V-H0-D7v" secondAttribute="bottom" constant="-5" id="nmU-q6-7Em"/>
                                 <constraint firstItem="H1V-H0-D7v" firstAttribute="width" secondItem="ckW-Lq-Foa" secondAttribute="width" id="sSi-5t-God"/>
                             </constraints>
